@@ -25,13 +25,14 @@ public class Cache<T> implements Serializable {
      * If not in list, add object.
      * If Cache is full, remove last object in list
      * and add new object in front.
-     *  @param object
+     * @param object
      */
     public T getObject(T object) {
         T returnObj = object;
         for (T obj: list) {
             if (obj.equals(object)) {
                 addObject(object);
+                ++numHits;
                 return obj;
             } else if (cacheSize == list.size()) {
                 list.removeLast();
@@ -40,8 +41,9 @@ public class Cache<T> implements Serializable {
             } else {
                 addObject(object);
                 return obj;
-            }         
-        }
+            }     
+        } 
+        ++numRefs;
         return returnObj;
     }
 
@@ -50,6 +52,7 @@ public class Cache<T> implements Serializable {
      */
     public void addObject(T object) {
         list.addFirst(object);
+        ++numRefs;
     }
 
     /*
@@ -57,6 +60,7 @@ public class Cache<T> implements Serializable {
      */
     public void removeObject(T object) {
         list.remove(object);
+        ++numRefs;
     }
 
     /*
@@ -64,6 +68,7 @@ public class Cache<T> implements Serializable {
      */
     public void clear() {
         list.clear();
+        ++numRefs;
     }
 
     @Override
