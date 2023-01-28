@@ -1,22 +1,60 @@
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class CacheTest {
     
-    public static void main(String[] args) {
+    @SuppressWarnings("unchecked")
+    public static void main(String[] args) {      
+
+        Long currentTime = System.currentTimeMillis();
         
-        //Player player = new Player(mo, 2);
+        String fileName = args[1];
+        int cacheSize = Integer.parseInt(args[0]);
+        Cache<Player> cache = new Cache<Player>(cacheSize);        
 
+        FileInputStream fileIn; 
         try {
-            FileOutputStream fileout = new FileOutputStream("list.serial");
-            ObjectOutputStream out = new ObjectOutputStream(fileout);
+            fileIn = new FileInputStream(fileName);
+            ObjectInputStream in = new ObjectInputStream(fileIn);
 
-            //out.writeObject(player);
-            out.close();
-        } catch (Exception e) {
-            System.out.println(e);
+            ArrayList<Player>  list = (ArrayList<Player>) in.readObject();
+            System.out.println(list.toString());
+ 
+            for(Player obj: list) {
+                ++cache.numRefs;
+                Player p = cache.getObject(obj);
+                if (p == null) {
+                    cache.addObject(obj);
+                } 
+                else {
+                    ++cache.numHits;
+                    cache.removeObject(obj);
+                    cache.addObject(obj);
+                }
+            }
+            in.close();
+        } catch (IOException e) { 
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
-    }
 
-}
+        Long elapsedTime = System.currentTimeMillis();
+
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        System.out.println("LinkedList Cache with 20 entries has been created");
+        System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+        cache.toString();
+        System.out.println("----------------------------------------------------------------");
+        System.out.println("Time elapsed: " + (currentTime - elapsedTime) + " milliseconds");
+        System.out.println("----------------------------------------------------------------");
+
+
+    }
+} 

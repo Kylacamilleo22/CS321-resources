@@ -7,10 +7,10 @@ import java.util.LinkedList;
  */
 public class Cache<T> implements Serializable {
     LinkedList<T> list = new LinkedList<T>();
-    int cacheSize; //T or int?
-    int numRefs = 0;
-    int numHits = 0;
-    double numHitRat = 0.0;
+    public int cacheSize;
+    public int numRefs = 0;
+    public int numHits = 0;
+    public double numHitRat = 0.0;
  
     /*
      * Simple constructor for Cache.
@@ -28,31 +28,25 @@ public class Cache<T> implements Serializable {
      * @param object
      */
     public T getObject(T object) {
-        T returnObj = object;
-        for (T obj: list) {
-            if (obj.equals(object)) {
-                addObject(object);
-                ++numHits;
-                return obj;
-            } else if (cacheSize == list.size()) {
-                list.removeLast();
-                addObject(object);
-                return obj; 
-            } else {
-                addObject(object);
-                return obj;
-            }     
-        } 
         ++numRefs;
-        return returnObj;
+        if (list.contains(object)) {
+            ++numHits;
+            //addObject(object);
+            return object;
+        }
+        else {
+            return null;
+        }
     }
 
     /*
      * Adds object in front of Cache.
      */
     public void addObject(T object) {
-        list.addFirst(object);
-        ++numRefs;
+        if (cacheSize == list.size()) {
+            list.removeLast();
+            list.addFirst(object);
+        }
     }
 
     /*
@@ -60,7 +54,6 @@ public class Cache<T> implements Serializable {
      */
     public void removeObject(T object) {
         list.remove(object);
-        ++numRefs;
     }
 
     /*
@@ -68,17 +61,19 @@ public class Cache<T> implements Serializable {
      */
     public void clear() {
         list.clear();
-        ++numRefs;
     }
 
     @Override
     public String toString() {
         numHitRat = ((double) numHits / numRefs) * 100;
-        String cacheList = "The total number of reference " + numRefs 
-        + " Total number of cache hits: " + numHits + " Cache hit ratio: " 
-        + numHitRat + "%";
-
+        String totalNumRefs = "The total number of reference:        ";
+        String totalNumHits = "\nTotal number of cache hits:        "; 
+        String cacheHitRatio = "\nCache hit ratio:        ";
+        String cacheList = totalNumRefs + numRefs 
+        + totalNumHits + numHits + cacheHitRatio
+        + numHitRat + "%\n";
+        
         return cacheList;
     }
-    
+
 }

@@ -12,6 +12,7 @@ else
 	echo "Please generate all the data files as explained in the project specifications."
 	echo "!!!BAILING out!!!"
 	echo
+	test java 
 	exit 1
 fi
 
