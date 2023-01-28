@@ -48,11 +48,11 @@ public class CacheTest {
         Long elapsedTime = System.currentTimeMillis();
 
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        System.out.println("LinkedList Cache with 20 entries has been created");
+        System.out.println("LinkedList Cache with " + cacheSize + " entries has been created");
         System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-        cache.toString();
+        System.out.println(cache.toString());
         System.out.println("----------------------------------------------------------------");
-        System.out.println("Time elapsed: " + (currentTime - elapsedTime) + " milliseconds");
+        System.out.println("Time elapsed: " + ((double)elapsedTime - currentTime) + " milliseconds");
         System.out.println("----------------------------------------------------------------");
 
 

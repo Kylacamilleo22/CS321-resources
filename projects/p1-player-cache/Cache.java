@@ -43,10 +43,12 @@ public class Cache<T> implements Serializable {
      * Adds object in front of Cache.
      */
     public void addObject(T object) {
+        
         if (cacheSize == list.size()) {
             list.removeLast();
-            list.addFirst(object);
+            //list.addFirst(object);
         }
+        list.addFirst(object);       
     }
 
     /*
@@ -67,8 +69,8 @@ public class Cache<T> implements Serializable {
     public String toString() {
         numHitRat = ((double) numHits / numRefs) * 100;
         String totalNumRefs = "The total number of reference:        ";
-        String totalNumHits = "\nTotal number of cache hits:        "; 
-        String cacheHitRatio = "\nCache hit ratio:        ";
+        String totalNumHits = "\nTotal number of cache hits:           "; 
+        String cacheHitRatio = "\nCache hit ratio:                      ";
         String cacheList = totalNumRefs + numRefs 
         + totalNumHits + numHits + cacheHitRatio
         + numHitRat + "%\n";
