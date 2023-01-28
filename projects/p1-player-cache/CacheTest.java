@@ -24,7 +24,7 @@ public class CacheTest {
             ObjectInputStream in = new ObjectInputStream(fileIn);
 
             ArrayList<Player>  list = (ArrayList<Player>) in.readObject();
-            System.out.println(list.toString());
+            //System.out.println(list.toString());
  
             for(Player obj: list) {
                 ++cache.numRefs;
