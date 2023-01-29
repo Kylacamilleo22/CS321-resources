@@ -1,21 +1,23 @@
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
-import java.util.ArrayList;
-import java.util.LinkedList;
 
-public class CacheTest {
+/**
+ * This CacheTest reads a serialized data file of Player objects, 
+ * and parses into player objects. 
+ */
+public class CacheTest { 
     
+    /**
+     * Reads in and deserialize the file, iterate through list, and 
+     * add or remove to the list.
+     * @param fileName
+     * @param cacheSize
+     * @return cache
+     */
     @SuppressWarnings("unchecked")
-    public static void main(String[] args) {      
-
-        Long currentTime = System.currentTimeMillis();
-        
-        String fileName = args[1];
-        int cacheSize = Integer.parseInt(args[0]);
+    public static Cache<Player> runTest(String fileName, int cacheSize) {
         Cache<Player> cache = new Cache<Player>(cacheSize);        
 
         FileInputStream fileIn; 
@@ -24,18 +26,15 @@ public class CacheTest {
             ObjectInputStream in = new ObjectInputStream(fileIn);
 
             ArrayList<Player>  list = (ArrayList<Player>) in.readObject();
-            //System.out.println(list.toString());
- 
+
             for(Player obj: list) {
-                ++cache.numRefs;
                 Player p = cache.getObject(obj);
-                if (p == null) {
+                if (p == null) { 
                     cache.addObject(obj);
                 } 
                 else {
-                    ++cache.numHits;
                     cache.removeObject(obj);
-                    cache.addObject(obj);
+                    cache.addObject(obj);       
                 }
             }
             in.close();
@@ -43,7 +42,22 @@ public class CacheTest {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-        }
+        } 
+
+        return cache;
+    } 
+    
+    /**
+     * Calculates the elapsed time, and prints the correct format outputs of the cache list. 
+     * @param args
+     */
+    public static void main(String[] args) {      
+        Long currentTime = System.currentTimeMillis();
+        
+        int cacheSize = Integer.parseInt(args[0]);
+        String fileName = args[1];
+
+        Cache<Player> cache = runTest(fileName, cacheSize);
 
         Long elapsedTime = System.currentTimeMillis();
 
@@ -53,8 +67,7 @@ public class CacheTest {
         System.out.println(cache.toString());
         System.out.println("----------------------------------------------------------------");
         System.out.println("Time elapsed: " + ((double)elapsedTime - currentTime) + " milliseconds");
-        System.out.println("----------------------------------------------------------------");
-
-
+        System.out.println("----------------------------------------------------------------"); 
     }
 } 
+

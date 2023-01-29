@@ -1,8 +1,9 @@
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.LinkedList;
 
-/*
- * Cache java stores data in a list and can be turned Serializable. 
+/**
+ * The Cache class stores data in a list and can be turned Serializable. 
  * Defines getObject, addObject, removesObject, clear, and toString methods. 
  */
 public class Cache<T> implements Serializable {
@@ -12,26 +13,26 @@ public class Cache<T> implements Serializable {
     public int numHits = 0;
     public double numHitRat = 0.0;
  
-    /*
+    /**
      * Simple constructor for Cache.
+     * Sets the size of cache.
      * @param cacheSize
      */
     public Cache(int cacheSize) {
         this.cacheSize = cacheSize;
     }
 
-    /*
+    /**
      * Scans the Cache and finds the object. 
-     * If not in list, add object.
-     * If Cache is full, remove last object in list
-     * and add new object in front.
+     * If not in list, return null
+     * If in list, increment numHits and return object.
      * @param object
+     * @return object
      */
     public T getObject(T object) {
         ++numRefs;
         if (list.contains(object)) {
             ++numHits;
-            //addObject(object);
             return object;
         }
         else {
@@ -39,26 +40,26 @@ public class Cache<T> implements Serializable {
         }
     }
 
-    /*
+    /**
      * Adds object in front of Cache.
+     * @param object
      */
     public void addObject(T object) {
-        
         if (cacheSize == list.size()) {
             list.removeLast();
-            //list.addFirst(object);
         }
         list.addFirst(object);       
     }
 
-    /*
+    /**
      * Simply removes object.
+     * @param object
      */
     public void removeObject(T object) {
         list.remove(object);
     }
 
-    /*
+    /**
      * Clears Cache list.
      */
     public void clear() {
@@ -68,12 +69,13 @@ public class Cache<T> implements Serializable {
     @Override
     public String toString() {
         numHitRat = ((double) numHits / numRefs) * 100;
-        String totalNumRefs = "The total number of reference:        ";
+        DecimalFormat df = new DecimalFormat("0.00");
+        String totalNumRefs = "Total number of references:        ";
         String totalNumHits = "\nTotal number of cache hits:           "; 
         String cacheHitRatio = "\nCache hit ratio:                      ";
         String cacheList = totalNumRefs + numRefs 
         + totalNumHits + numHits + cacheHitRatio
-        + numHitRat + "%\n";
+        + df.format(numHitRat) + "%\n";
         
         return cacheList;
     }

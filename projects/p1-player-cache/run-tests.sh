@@ -7,13 +7,11 @@ then
 	echo "Input data files found. Proceeding with the test!"
 	echo
 else
-	echo
+	echo 
 	echo "Expected input data files: Player-List50.data, Player-List1000.data, and Player-List100000.data not found!"
 	echo "Please generate all the data files as explained in the project specifications."
 	echo "!!!BAILING out!!!"
-	echo
-	test java 
-	exit 1
+	echo 
 fi
 
 
