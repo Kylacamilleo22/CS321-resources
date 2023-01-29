@@ -70,7 +70,7 @@ public class Cache<T> implements Serializable {
     public String toString() {
         numHitRat = ((double) numHits / numRefs) * 100;
         DecimalFormat df = new DecimalFormat("0.00");
-        String totalNumRefs = "Total number of references:        ";
+        String totalNumRefs = "Total number of references:           ";
         String totalNumHits = "\nTotal number of cache hits:           "; 
         String cacheHitRatio = "\nCache hit ratio:                      ";
         String cacheList = totalNumRefs + numRefs 
