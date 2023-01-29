@@ -6,10 +6,6 @@
 
 ## Overview
 
-Concisely explain what the program does. If this exceeds a couple of
-sentences, you're going too far. Generally you should be pulling this
-right from the project specification. I don't want you to just cut and
-paste, but paraphrase what is stated in the project specification.
 The program generates a player object from Player class and PlayerGenerator 
 class that is serialized, the Cache class is used to store the player objects, 
 then the CacheTest class reads and deserialized the file. It displays the outputs
@@ -37,11 +33,6 @@ to be a bit difficult to follow, I know this is intentional and prepares us for 
 careers, but it took me a quite a while to figure out.
 
 ## Compiling and Using
-
-This section should tell the user how to compile your code.  It is
-also appropriate to instruct the user how to use your code. Does your
-program require user input? If so, what does your user need to know
-about it to use it as quickly as possible?
 
 To compile, execute the following command in the main project directory:
 ```
